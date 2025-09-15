@@ -283,7 +283,7 @@ Este proyecto está bajo la licencia [especificar licencia].
 Para soporte o preguntas:
 
 - **Issues**: [Crear un issue en GitHub] https://github.com/Jcarroda/GeoAstur/issues
-- **Email**: [jcarroda@ejemplo.com]
+- **Email**: [jcarroda@gmail.com]
 
 ## 🎉 Agradecimientos
 
