@@ -1,0 +1,2389 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="GeoAstur - Explorador de Lugares">
+  <Header />
+  
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h3><i class="fas fa-filter"></i> Filtros</h3>
+        <button class="toggle-filters-btn" id="toggleFiltersBtn" onclick="toggleFilters()">
+          <i class="fas fa-minus"></i>
+        </button>
+      </div>
+      <div class="filters-content" id="filtersContent">
+      <div class="filter-group">
+        <label>Localidad</label>
+        <div class="locality-filter-container">
+          <div class="locality-header">
+            <select class="filter-select" id="localityFilter">
+              <option value="">Todas las localidades</option>
+              <option value="Oviedo">Oviedo</option>
+              <option value="Gijón">Gijón</option>
+              <option value="Avilés">Avilés</option>
+              <option value="Mieres">Mieres</option>
+              <option value="Langreo">Langreo</option>
+              <option value="Siero">Siero</option>
+              <option value="Cangas de Onís">Cangas de Onís</option>
+              <option value="Llanes">Llanes</option>
+              <option value="Ribadesella">Ribadesella</option>
+              <option value="Cudillero">Cudillero</option>
+              <option value="Laviana">Laviana</option>
+              <option value="Pola de Lena">Pola de Lena</option>
+              <option value="Pola de Siero">Pola de Siero</option>
+              <option value="Noreña">Noreña</option>
+              <option value="Pravia">Pravia</option>
+              <option value="Cangas del Narcea">Cangas del Narcea</option>
+              <option value="Tineo">Tineo</option>
+              <option value="Luarca">Luarca</option>
+              <option value="Navia">Navia</option>
+              <option value="Tapia de Casariego">Tapia de Casariego</option>
+            </select>
+          </div>
+          <div class="custom-locality-input" style="display: none;">
+            <input type="text" class="filter-input" id="customLocalityInput" placeholder="Escribe tu localidad..." oninput="handleLocalitySearch(this.value)">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="useCustomLocality()">
+              <i class="fas fa-check"></i> Usar
+            </button>
+          </div>
+          <div class="locality-options" style="display: none;">
+            <small class="form-help">Ubicaciones encontradas:</small>
+            <div class="locality-options-list"></div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Tipo de Negocio</label>
+        <div class="multi-select-container">
+          <div class="selected-types" id="selectedTypes">
+            <span class="placeholder">Seleccionar tipos...</span>
+          </div>
+          <div class="types-dropdown" id="typesDropdown">
+            <div class="type-option" data-value="restaurant">
+              <input type="checkbox" id="type-restaurant">
+              <label for="type-restaurant">Restaurante</label>
+            </div>
+            <div class="type-option" data-value="bar">
+              <input type="checkbox" id="type-bar">
+              <label for="type-bar">Bar</label>
+            </div>
+            <div class="type-option" data-value="cafe">
+              <input type="checkbox" id="type-cafe">
+              <label for="type-cafe">Cafetería</label>
+            </div>
+            <div class="type-option" data-value="hotel">
+              <input type="checkbox" id="type-hotel">
+              <label for="type-hotel">Hotel</label>
+            </div>
+            <div class="type-option" data-value="store">
+              <input type="checkbox" id="type-store">
+              <label for="type-store">Tienda</label>
+            </div>
+            <div class="type-option" data-value="pharmacy">
+              <input type="checkbox" id="type-pharmacy">
+              <label for="type-pharmacy">Farmacia</label>
+            </div>
+            <div class="type-option" data-value="gas_station">
+              <input type="checkbox" id="type-gas_station">
+              <label for="type-gas_station">Gasolinera</label>
+            </div>
+            <div class="type-option" data-value="bank">
+              <input type="checkbox" id="type-bank">
+              <label for="type-bank">Banco</label>
+            </div>
+            <div class="type-option" data-value="museum">
+              <input type="checkbox" id="type-museum">
+              <label for="type-museum">Museo</label>
+            </div>
+            <div class="type-option" data-value="park">
+              <input type="checkbox" id="type-park">
+              <label for="type-park">Parque</label>
+            </div>
+            <div class="type-option" data-value="hospital">
+              <input type="checkbox" id="type-hospital">
+              <label for="type-hospital">Hospital</label>
+            </div>
+            <div class="type-option" data-value="school">
+              <input type="checkbox" id="type-school">
+              <label for="type-school">Escuela</label>
+            </div>
+            <div class="type-option" data-value="church">
+              <input type="checkbox" id="type-church">
+              <label for="type-church">Iglesia</label>
+            </div>
+            <div class="type-option" data-value="gym">
+              <input type="checkbox" id="type-gym">
+              <label for="type-gym">Gimnasio</label>
+            </div>
+            <div class="type-option" data-value="beauty_salon">
+              <input type="checkbox" id="type-beauty_salon">
+              <label for="type-beauty_salon">Peluquería</label>
+            </div>
+            <div class="type-option" data-value="car_repair">
+              <input type="checkbox" id="type-car_repair">
+              <label for="type-car_repair">Taller</label>
+            </div>
+            <div class="type-option" data-value="laundry">
+              <input type="checkbox" id="type-laundry">
+              <label for="type-laundry">Lavandería</label>
+            </div>
+            <div class="type-option" data-value="post_office">
+              <input type="checkbox" id="type-post_office">
+              <label for="type-post_office">Correos</label>
+            </div>
+            <div class="type-option" data-value="police">
+              <input type="checkbox" id="type-police">
+              <label for="type-police">Policía</label>
+            </div>
+            <div class="type-option" data-value="fire_station">
+              <input type="checkbox" id="type-fire_station">
+              <label for="type-fire_station">Bomberos</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Horarios</label>
+        <select class="filter-select" id="openFilter">
+          <option value="">Todos</option>
+          <option value="open">Abierto ahora</option>
+          <option value="closed">Cerrado ahora</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Precio</label>
+        <select class="filter-select" id="priceFilter">
+          <option value="">Todos</option>
+          <option value="1">Económico</option>
+          <option value="2">Moderado</option>
+          <option value="3">Caro</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Tienen web</label>
+        <select class="filter-select" id="websiteFilter">
+          <option value="">Todos</option>
+          <option value="yes">Sí</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Tienen teléfono</label>
+        <select class="filter-select" id="phoneFilter">
+          <option value="">Todos</option>
+          <option value="yes">Sí</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Rating Mínimo</label>
+        <input type="number" class="filter-input" id="ratingFilter" min="0" max="5" step="0.1" value="0">
+      </div>
+      
+      <button class="btn btn-secondary filter-btn" onclick="resetFilters()" title="Limpiar Filtros">
+        <i class="fas fa-times"></i> Limpiar Filtros
+      </button>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="content">
+
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" id="searchInput" placeholder="Buscar lugares en Asturias...">
+        </div>
+      </div>
+
+
+      <!-- Loading -->
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Cargando lugares...</p>
+      </div>
+
+      <!-- Cards View -->
+      <div id="cardsView" class="cards-grid">
+        <!-- Cards will be populated here -->
+      </div>
+
+
+      <!-- Pagination -->
+      <div class="pagination-container" id="paginationContainer" style="display: none;">
+        <button class="btn btn-secondary" onclick="changePage(currentPage - 1)" id="prevBtn">
+          <i class="fas fa-chevron-left"></i> Anterior
+        </button>
+        <div class="pagination-info" id="paginationInfo">
+          Página 1 de 1
+        </div>
+        <button class="btn btn-secondary" onclick="changePage(currentPage + 1)" id="nextBtn">
+          Siguiente <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create/Edit Modal -->
+  <div class="modal" id="placeModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Nuevo Lugar</h3>
+        <button class="modal-close" onclick="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <form id="placeForm">
+        <div class="form-group">
+          <label>Nombre del Lugar</label>
+          <input type="text" class="form-input" id="placeName" required>
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea class="form-input" id="placeDescription" rows="3"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Estado</label>
+            <select class="form-input" id="placeEstado">
+              <option value="">Sin especificar</option>
+              <option value="cliente">Cliente</option>
+              <option value="interesado">Interesado</option>
+              <option value="descartado">Descartado</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Datos Adicionales del Cliente</label>
+          <textarea class="form-input" id="placeDatosAdicionales" rows="3" placeholder="Información adicional sobre el cliente..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Notas</label>
+          <textarea class="form-input" id="placeNotas" rows="3" placeholder="Notas generales..."></textarea>
+        </div>
+
+        <div class="action-buttons">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Guardar
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notifications -->
+  <div id="notifications"></div>
+
+  <Footer />
+
+  <style>
+    /* Main Container */
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+      min-height: calc(100vh - 80px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 0;
+      height: fit-content;
+      max-height: calc(100vh - 120px);
+      top: 30px;
+      position: sticky;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+      overflow-y: hidden;
+      /* Ocultar la barra de scroll por defecto */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+    }
+
+    /* Ocultar scrollbar para WebKit browsers (Chrome, Safari, Edge) */
+    .sidebar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sidebar:hover {
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      /* Ocultar la barra de scroll */
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+    }
+
+    /* Ocultar scrollbar para WebKit browsers (Chrome, Safari, Edge) */
+    .sidebar:hover::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+      background: var(--bg-secondary);
+      border-radius: 16px 16px 0 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .sidebar-header h3 {
+      margin: 0;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toggle-filters-btn {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+    }
+
+    .toggle-filters-btn:hover {
+      background: var(--accent-primary);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .filters-content {
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .sidebar.collapsed .filters-content {
+      max-height: 0;
+      opacity: 0;
+    }
+
+
+
+    .sidebar.collapsed .toggle-filters-btn i {
+      transform: rotate(180deg);
+    }
+
+    /* Filters */
+    .filter-group {
+      margin-bottom: 1.5rem;
+      padding: 0 1.5rem;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .filter-input, .filter-select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+      font-family: inherit;
+      font-size: 0.875rem;
+      box-sizing: border-box;
+    }
+
+    .filter-input:focus, .filter-select:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .filter-input:disabled, .filter-select:disabled {
+      background: var(--bg-tertiary);
+      color: var(--text-muted);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .form-help {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Locality filter */
+    .locality-filter-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .locality-header {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .locality-header select {
+      flex: 1;
+    }
+
+    .custom-locality-input {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .custom-locality-input input {
+      flex: 1;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+    }
+
+    .locality-options {
+      background: var(--bg-tertiary);
+      border-radius: 6px;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .locality-options-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+
+    .locality-option {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .locality-option:hover {
+      background: var(--accent-primary);
+      color: white;
+      border-color: var(--accent-primary);
+    }
+
+    /* Multi-select container */
+    .multi-select-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .selected-types {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem;
+      background: var(--bg-primary);
+      cursor: pointer;
+      min-height: 2.5rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      font-size: 0.875rem;
+      box-sizing: border-box;
+    }
+
+    .selected-types:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .selected-types .placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .selected-types .type-tag {
+      background: var(--accent-primary);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .selected-types .type-tag .remove {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .types-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      z-index: 1000;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .types-dropdown.show {
+      display: block;
+    }
+
+    .type-option {
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .type-option:hover {
+      background: var(--bg-secondary);
+    }
+
+    .type-option input[type="checkbox"] {
+      margin: 0;
+    }
+
+    /* Filter buttons */
+    .filter-btn {
+      width: calc(100% - 3rem);
+      margin: 1rem 1.5rem 1.5rem 1.5rem;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .filter-btn i {
+      font-size: 1rem;
+    }
+
+    .filter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Content Area */
+    .content {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Search Container */
+    .search-container {
+      margin-bottom: 1.5rem;
+      width: 100%;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      font-size: 1rem;
+      z-index: 1;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.875rem 1rem 0.875rem 2.75rem;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
+      box-sizing: border-box;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      background: var(--bg-secondary);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: inherit;
+      text-decoration: none;
+      font-size: 0.875rem;
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border-color);
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: var(--accent-success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* View Toggle */
+    .view-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--bg-tertiary);
+      padding: 0.25rem;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    .view-btn {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .view-btn.active {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+
+    /* Map Container */
+    .map-container {
+      height: 600px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    #map {
+      height: 100%;
+      width: 100%;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg-primary);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Notifications */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      z-index: 1001;
+      transform: translateX(100%);
+      transition: all 0.3s ease;
+      max-width: 300px;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.success {
+      background: var(--accent-success);
+    }
+
+    .notification.error {
+      background: var(--accent-danger);
+    }
+
+    .notification.warning {
+      background: var(--accent-warning);
+    }
+
+    /* Loading */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border-color);
+      border-top: 4px solid var(--accent-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Pagination */
+    .pagination-container {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding: 1rem;
+    }
+
+    .pagination-info {
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .pagination-container .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .pagination-container .btn:disabled:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        position: static;
+        order: 1;
+      }
+      
+      .content {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .sidebar {
+        position: static;
+        order: 1;
+        max-height: 300px; /* Altura fija en móvil */
+        overflow-y: auto;
+      }
+
+      .sidebar.collapsed {
+        max-height: 80px; /* Solo header + padding cuando está colapsado */
+      }
+
+      .filters-content {
+        max-height: 240px; /* Altura para el contenido de filtros */
+        overflow-y: auto;
+      }
+
+      .content {
+        order: 2;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .place-card {
+        padding: 1rem;
+      }
+
+      .place-details {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .pagination-container {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+      }
+
+      .pagination-info {
+        order: -1;
+        text-align: center;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .action-buttons .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .view-toggle {
+        flex-direction: column;
+      }
+
+      
+      .locality-header {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .custom-locality-input {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+  </style>
+
+  <script>
+    // Declarar Leaflet como global para TypeScript
+    declare const L: any;
+    
+    // Configuración local - Sin necesidad de backend
+    const DATA_FILE = '/places.json';
+    
+    // Función para traducir estados de negocio
+    function translateBusinessStatus(status: string): string {
+      const translations: { [key: string]: string } = {
+        'OPERATIONAL': 'Operativo',
+        'CLOSED_TEMPORARILY': 'Cerrado Temporalmente',
+        'CLOSED_PERMANENTLY': 'Cerrado Permanentemente'
+      };
+      return translations[status] || status;
+    }
+
+    // Función para obtener el texto del precio según el nivel
+    function getPriceText(priceLevel: number): string {
+      const priceTexts: { [key: number]: string } = {
+        1: 'Muy económico',
+        2: 'Económico',
+        3: 'Moderado',
+        4: 'Caro',
+        5: 'Muy caro'
+      };
+      return priceTexts[priceLevel] || 'Precio no especificado';
+    }
+
+    // Inyectar estilos CSS para las cards
+    function injectCardStyles() {
+      const existingStyles = document.getElementById('card-styles');
+      if (existingStyles) return; // Ya están inyectados
+      
+      const styles = `
+        <style id="card-styles">
+          .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+          }
+
+          .place-card {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(10px);
+          }
+
+          .status-indicators {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+          }
+
+          .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-primary);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: help;
+          }
+
+          .status-dot:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          }
+
+          .status-dot .tooltip {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            transform: translateX(0);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            margin-top: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            width: auto;
+            min-width: fit-content;
+            text-align: center;
+            border: 1px solid var(--border-color);
+          }
+
+          .status-dot .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            right: 0.5rem;
+            border: 4px solid transparent;
+            border-bottom-color: var(--bg-tertiary);
+          }
+
+          .status-dot:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+          }
+
+          .status-dot.status-operational {
+            background: #60a5fa;
+          }
+
+          .status-dot.status-closed {
+            background: #ef4444;
+          }
+
+          .status-dot.status-temporarily-closed {
+            background: #f59e0b;
+          }
+
+          .status-dot.status-open {
+            background: #10b981;
+          }
+
+          .place-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+          }
+
+          .place-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-primary);
+          }
+
+          .place-card:hover::before {
+            transform: scaleX(1);
+          }
+
+          .place-card.estado-cliente {
+            border-color: var(--accent-success);
+            border-width: 2px;
+          }
+
+          .place-card.estado-cliente::before {
+            background: var(--accent-success);
+            transform: scaleX(1);
+          }
+
+          .place-card.estado-interesado {
+            border-color: var(--accent-warning);
+            border-width: 2px;
+          }
+
+          .place-card.estado-interesado::before {
+            background: var(--accent-warning);
+            transform: scaleX(1);
+          }
+
+          .place-card.estado-descartado {
+            border-color: var(--accent-danger);
+            border-width: 2px;
+          }
+
+          .place-card.estado-descartado::before {
+            background: var(--accent-danger);
+            transform: scaleX(1);
+          }
+
+          .place-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+          }
+
+          .place-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem;
+            line-height: 1.3;
+          }
+
+          .place-location {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+          }
+
+          .place-location i {
+            color: var(--accent-primary);
+            font-size: 1rem;
+          }
+
+          .place-actions {
+            display: flex;
+            gap: 0.5rem;
+          }
+
+          .action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+          }
+
+          .action-btn.edit {
+            background: var(--accent-warning);
+            color: white;
+          }
+
+          .action-btn.delete {
+            background: var(--accent-danger);
+            color: white;
+          }
+
+          .action-btn:hover {
+            transform: scale(1.1);
+          }
+
+          .place-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+          }
+
+          .detail-item-full {
+            grid-column: 1 / -1;
+          }
+
+          .rating-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+            border: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+          }
+
+          .rating-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            transform: scaleX(1);
+          }
+
+          .stars-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          }
+
+          .star {
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+          }
+
+          .star-filled {
+            color: #fbbf24;
+            text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+          }
+
+          .star-empty {
+            color: #d1d5db;
+          }
+
+          .rating-number {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-left: 0.5rem;
+            background: var(--bg-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+          }
+
+          .no-rating {
+            color: var(--text-muted);
+            font-style: italic;
+          }
+
+          .price-display {
+            background: linear-gradient(135deg, var(--accent-warning), #f59e0b);
+            color: white;
+            border: 1px solid var(--accent-warning);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            display: block;
+            width: 190%;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          }
+
+          .price-display:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+          }
+
+
+          .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .detail-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+          }
+
+          .detail-item:hover {
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
+          }
+
+          .detail-item:hover::before {
+            transform: scaleX(1);
+          }
+
+          .detail-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-align: left;
+            margin-bottom: 0.25rem;
+          }
+
+          .detail-value {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            line-height: 1.4;
+          }
+
+          .detail-value a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+          }
+
+          .detail-value a:hover {
+            color: white;
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+          }
+
+          .place-tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+          }
+
+          .tag {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+            color: var(--text-secondary);
+            border-radius: 25px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+          }
+
+          .tag:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border-color: var(--accent-primary);
+          }
+
+          .tag:hover::before {
+            left: 100%;
+          }
+
+          .tag.status-open {
+            background: linear-gradient(135deg, var(--accent-success), #10b981);
+            color: white;
+            border-color: var(--accent-success);
+          }
+
+          .tag.status-closed {
+            background: linear-gradient(135deg, var(--accent-danger), #ef4444);
+            color: white;
+            border-color: var(--accent-danger);
+          }
+
+
+          .tag[data-status="CLOSED_TEMPORARILY"] {
+            background: linear-gradient(135deg, var(--accent-warning), #f59e0b);
+            color: white;
+            border-color: var(--accent-warning);
+          }
+
+          .tag[data-status="OPERATIONAL"] {
+            background: linear-gradient(135deg, var(--accent-success), #10b981);
+            color: white;
+            border-color: var(--accent-success);
+          }
+
+          @media (max-width: 768px) {
+            .place-details {
+              grid-template-columns: 1fr;
+              gap: 0.75rem;
+            }
+
+            .place-card {
+              padding: 1rem;
+            }
+
+            .star {
+              font-size: 1.25rem;
+            }
+
+            .rating-number {
+              font-size: 1rem;
+            }
+          }
+        </style>
+      `;
+      
+      document.head.insertAdjacentHTML('beforeend', styles);
+    }
+    
+    // Global variables
+    let allPlaces: any[] = []; // Todos los lugares originales
+    let currentPlaces: any[] = []; // Lugares filtrados actuales
+    let currentView: string = 'cards';
+    let map: any = null;
+    let editingPlaceId: string | null = null;
+    
+    // Variables de paginación
+    let currentPage: number = 1;
+    let itemsPerPage: number = window.innerWidth <= 768 ? 10 : 20; // 10 en móvil, 20 en desktop
+
+    // Función para ajustar paginación según el tamaño de pantalla
+    function adjustPaginationForScreenSize() {
+      const newItemsPerPage = window.innerWidth <= 768 ? 10 : 20;
+      if (newItemsPerPage !== itemsPerPage) {
+        itemsPerPage = newItemsPerPage;
+        currentPage = 1; // Reset a la primera página
+        renderPlaces();
+      }
+    }
+
+    // Función para cambiar de página
+    function changePage(newPage: number) {
+      const totalPages = Math.ceil(currentPlaces.length / itemsPerPage);
+      if (newPage >= 1 && newPage <= totalPages) {
+        currentPage = newPage;
+        renderPlaces();
+      }
+    }
+
+    // Diccionario de traducción de tipos de Google a español
+    const typeTranslations: { [key: string]: string } = {
+      'restaurant': 'Restaurante',
+      'bar': 'Bar',
+      'cafe': 'Cafetería',
+      'hotel': 'Hotel',
+      'store': 'Tienda',
+      'pharmacy': 'Farmacia',
+      'gas_station': 'Gasolinera',
+      'bank': 'Banco',
+      'museum': 'Museo',
+      'park': 'Parque',
+      'hospital': 'Hospital',
+      'school': 'Escuela',
+      'church': 'Iglesia',
+      'gym': 'Gimnasio',
+      'beauty_salon': 'Peluquería',
+      'car_repair': 'Taller',
+      'laundry': 'Lavandería',
+      'post_office': 'Correos',
+      'police': 'Policía',
+      'fire_station': 'Bomberos'
+    };
+
+    // Diccionario de localidades por provincia
+    const localitiesByProvince: { [key: string]: string[] } = {
+      'Asturias': ['Oviedo', 'Gijón', 'Avilés', 'Mieres', 'Langreo', 'Siero', 'Cangas de Onís', 'Llanes', 'Ribadesella', 'Cudillero', 'Laviana', 'Pola de Lena', 'Pola de Siero', 'Noreña', 'Pravia', 'Cangas del Narcea', 'Tineo', 'Luarca', 'Navia', 'Tapia de Casariego'],
+      'Madrid': ['Madrid', 'Móstoles', 'Alcalá de Henares', 'Fuenlabrada', 'Leganés', 'Getafe', 'Alcorcón', 'Torrejón de Ardoz', 'Parla', 'Alcobendas', 'Las Rozas de Madrid', 'San Sebastián de los Reyes', 'Pozuelo de Alarcón', 'Rivas-Vaciamadrid', 'Coslada', 'Valdemoro', 'Majadahonda', 'Collado Villalba', 'Aranjuez', 'Arganda del Rey', 'Boadilla del Monte'],
+      'Barcelona': ['Barcelona', 'L\'Hospitalet de Llobregat', 'Badalona', 'Terrassa', 'Sabadell', 'Mataró', 'Santa Coloma de Gramenet', 'Sant Cugat del Vallès', 'Cornellà de Llobregat', 'Sant Boi de Llobregat', 'Rubí', 'Manresa', 'Vilanova i la Geltrú', 'Castelldefels', 'Viladecans', 'El Prat de Llobregat', 'Granollers', 'Cerdanyola del Vallès', 'Mollet del Vallès', 'Esplugues de Llobregat'],
+      'Valencia': ['Valencia', 'Alicante', 'Elche', 'Castellón de la Plana', 'Torrevieja', 'Orihuela', 'Gandía', 'Benidorm', 'Alcoy', 'Elda', 'Sagunto', 'San Vicente del Raspeig', 'Villena', 'Alzira', 'Dénia', 'Xàtiva', 'Carcaixent', 'Algemesí', 'Ontinyent', 'Requena']
+    };
+
+    function translateTypes(types: string[]) {
+      if (!types || !types.length) return 'No especificado';
+      // Filtrar duplicados y tipos genéricos poco útiles
+      const skip = ['point_of_interest', 'establishment', 'premise', 'place_of_worship'];
+      const translated = types
+        .filter((t, i, arr) => !skip.includes(t) && arr.indexOf(t) === i)
+        .map(t => typeTranslations[t] || t.charAt(0).toUpperCase() + t.slice(1).replace(/_/g, ' '));
+      return translated.length > 0 ? translated.join(', ') : 'No especificado';
+    }
+
+    // Función para actualizar el selector de localidades según la provincia seleccionada
+    function updateLocalitySelector(provinceSelectId: string, localitySelectId: string) {
+      const provinceSelect = document.getElementById(provinceSelectId) as HTMLSelectElement;
+      const localitySelect = document.getElementById(localitySelectId) as HTMLSelectElement;
+      const selectedProvince = provinceSelect?.value || '';
+      
+      if (!localitySelect) return;
+      
+      // Limpiar opciones existentes
+      localitySelect.innerHTML = '<option value="">Selecciona una localidad</option>';
+      
+      if (selectedProvince && localitiesByProvince[selectedProvince]) {
+        // Habilitar el selector
+        localitySelect.disabled = false;
+        
+        // Agregar opciones de localidades
+        localitiesByProvince[selectedProvince].forEach(locality => {
+          const option = document.createElement('option');
+          option.value = locality;
+          option.textContent = locality;
+          localitySelect.appendChild(option);
+        });
+      } else {
+        // Deshabilitar el selector
+        localitySelect.disabled = true;
+        localitySelect.innerHTML = '<option value="">Selecciona una provincia primero</option>';
+      }
+    }
+
+    // Load places from API
+    async function loadPlaces() {
+      showLoading(true);
+      try {
+        const DATA_FILE = '/places.json';
+        const response = await fetch(DATA_FILE);
+        const data = await response.json();
+        allPlaces = data.places || []; // Guardar todos los lugares originales
+        currentPlaces = [...allPlaces]; // Copiar a lugares actuales
+        renderPlaces();
+      } catch (error) {
+        showNotification('Error al cargar lugares', 'error');
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    // Render places based on current view
+    function renderPlaces() {
+      renderCards(); // Solo mostrar vista de tarjetas
+    }
+
+    // Render cards view
+    function renderCards() {
+      const container = document.getElementById('cardsView');
+      if (!container) return;
+      
+      if (currentPlaces.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+            <i class="fas fa-map-marker-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <h3>No hay lugares</h3>
+            <p>Agrega tu primer lugar para comenzar</p>
+          </div>
+        `;
+        updatePagination();
+        return;
+      }
+
+      // Calcular paginación
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const paginatedPlaces = currentPlaces.slice(startIndex, endIndex);
+
+      // Generar HTML de las tarjetas
+      const cardsHTML = paginatedPlaces.map(place => {
+        // Determinar la clase CSS según el estado
+        let estadoClass = '';
+        if (place.estado === 'cliente') {
+          estadoClass = 'estado-cliente';
+        } else if (place.estado === 'interesado') {
+          estadoClass = 'estado-interesado';
+        } else if (place.estado === 'descartado') {
+          estadoClass = 'estado-descartado';
+        }
+        
+        return `
+        <div class="place-card fade-in ${estadoClass}" onclick="editPlace('${place.id}')">
+          <!-- Indicadores de estado en la esquina superior derecha -->
+          <div class="status-indicators">
+            <div class="status-dot ${place.business_status === 'OPERATIONAL' ? 'status-operational' : place.business_status === 'CLOSED_TEMPORARILY' ? 'status-temporarily-closed' : 'status-closed'}">
+              <div class="tooltip">${place.business_status === 'OPERATIONAL' ? 'Negocio operativo' : place.business_status === 'CLOSED_TEMPORARILY' ? 'Cerrado temporalmente' : 'Negocio cerrado'}</div>
+            </div>
+            <div class="status-dot ${place.opening_hours ? 'status-open' : 'status-closed'}">
+              <div class="tooltip">${place.opening_hours ? 'Abierto ahora' : 'Cerrado ahora'}</div>
+            </div>
+          </div>
+          
+          <div class="place-header">
+            <div>
+              <h4 class="place-title">${place.name}</h4>
+              <div class="place-location">
+                ${place.address || 'Sin dirección'}
+              </div>
+            </div>
+            <div class="place-actions">
+            </div>
+          </div>
+          
+          <div class="place-details">
+            <!-- Tipo de negocio - Ocupa todo el ancho -->
+            <div class="detail-item detail-item-full">
+              <span class="detail-label">Tipo</span>
+              <span class="detail-value">${translateTypes(place.types)}</span>
+            </div>
+            
+            <!-- Teléfono y Website - Dos columnas -->
+            <div class="detail-item">
+              <span class="detail-label">Teléfono</span>
+              <span class="detail-value">${place.phone || 'No tiene'}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Website</span>
+              <span class="detail-value">${place.website ? '<a href="' + place.website + '" target="_blank">Ver sitio</a>' : 'No tiene'}</span>
+            </div>
+            
+            <!-- Rating - Ocupa todo el ancho, solo estrellas -->
+            <div class="detail-item detail-item-full rating-container">
+              <div class="stars-display">
+                ${place.rating ? Array.from({length: 5}, (_, i) => 
+                  `<span class="star ${i < Math.floor(place.rating) ? 'star-filled' : 'star-empty'}">★</span>`
+                ).join('') + `<span class="rating-number">${place.rating}</span>` : '<span class="no-rating">Sin calificación</span>'}
+              </div>
+            </div>
+            ${place.estado ? `<div class="detail-item">
+              <span class="detail-label">👤 Estado</span>
+              <span class="detail-value">${place.estado}</span>
+            </div>` : ''}
+            ${place.datos_adicionales_cliente ? `<div class="detail-item">
+              <span class="detail-label">📋 Datos Cliente</span>
+              <span class="detail-value">${place.datos_adicionales_cliente}</span>
+            </div>` : ''}
+            ${place.notas ? `<div class="detail-item">
+              <span class="detail-label">📝 Notas</span>
+              <span class="detail-value">${place.notas}</span>
+            </div>` : ''}
+          </div>
+          
+          <div class="place-tags">
+            ${place.price_level ? `<span class="price-display">${'$'.repeat(place.price_level)} ${getPriceText(place.price_level)}</span>` : ''}
+          </div>
+        </div>
+      `;
+      }).join('');
+
+      container.innerHTML = cardsHTML;
+      updatePagination();
+    }
+
+    // Función para actualizar la paginación
+    function updatePagination() {
+      const paginationContainer = document.getElementById('paginationContainer');
+      const paginationInfo = document.getElementById('paginationInfo');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      if (!paginationContainer || !paginationInfo || !prevBtn || !nextBtn) return;
+      
+      const totalPages = Math.ceil(currentPlaces.length / itemsPerPage);
+      
+      if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+      }
+      
+      paginationContainer.style.display = 'flex';
+      paginationInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+      
+      (prevBtn as HTMLButtonElement).disabled = currentPage === 1;
+      (nextBtn as HTMLButtonElement).disabled = currentPage === totalPages;
+    }
+
+    // Initialize map
+    function initMap() {
+      if (!map) {
+        // @ts-ignore - Leaflet is loaded globally
+        map = L.map('map').setView([43.3614, -5.8593], 9); // Asturias center
+        // @ts-ignore - Leaflet is loaded globally
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+      }
+    }
+
+    // Render map view
+    function renderMap() {
+      if (!map) {
+        initMap();
+      }
+      
+      // Clear existing markers and clusters
+      // @ts-ignore - Leaflet is loaded globally
+      map.eachLayer((layer: any) => {
+        // @ts-ignore - Leaflet is loaded globally
+        if (layer instanceof L.Marker || (typeof L.MarkerClusterGroup !== 'undefined' && layer instanceof L.MarkerClusterGroup)) {
+          map.removeLayer(layer);
+        }
+      });
+
+      // Create marker cluster group with max 5 markers visible
+      // @ts-ignore - Leaflet is loaded globally
+      let markers;
+      if (typeof L.markerClusterGroup !== 'undefined') {
+        markers = L.markerClusterGroup({
+          maxClusterRadius: 80, // Radio máximo para agrupar marcadores
+          disableClusteringAtZoom: 16, // Desactivar clustering a partir de zoom 16
+          spiderfyOnMaxZoom: true, // Mostrar todos los marcadores al hacer zoom máximo
+          showCoverageOnHover: false, // No mostrar cobertura al hacer hover
+          zoomToBoundsOnClick: true, // Hacer zoom al hacer click en cluster
+          maxClusterSize: 5, // Máximo 5 marcadores por cluster
+          chunkedLoading: true // Cargar marcadores en chunks para mejor rendimiento
+        });
+        console.log('Using MarkerClusterGroup for clustering');
+      } else {
+        console.log('MarkerClusterGroup not available, using regular markers');
+        // @ts-ignore - Leaflet is loaded globally
+        markers = L.layerGroup();
+      }
+
+      // Add markers for each place
+      console.log('Total places to render:', currentPlaces.length);
+      let markersAdded = 0;
+      
+      currentPlaces.forEach(place => {
+        if (place.geometry && place.geometry.location) {
+          const lat = place.geometry.location.lat;
+          const lng = place.geometry.location.lng;
+          
+          console.log(`Adding marker for ${place.name} at [${lat}, ${lng}]`);
+          
+          // @ts-ignore - Leaflet is loaded globally
+          const marker = L.marker([lat, lng]);
+          marker.bindPopup(`
+            <div style="min-width: 200px;">
+              <h4>${place.name}</h4>
+              <p>${place.address || 'Sin dirección'}</p>
+              <p>Rating: ${place.rating || 'Sin calificación'}</p>
+              <button onclick="editPlace('${place.id}')" style="background: var(--accent-primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-top: 0.5rem;">
+                Editar
+              </button>
+            </div>
+          `);
+          
+          markers.addLayer(marker);
+          markersAdded++;
+        } else {
+          console.log(`Place ${place.name} has no valid geometry:`, place.geometry);
+        }
+      });
+      
+      console.log(`Total markers added: ${markersAdded}`);
+
+      // Add the marker cluster group to the map
+      map.addLayer(markers);
+    }
+
+    // Switch between views
+    function switchView(view: string) {
+      currentView = view;
+      
+      // Update toggle buttons
+      document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+      const event = window.event as Event;
+      if (event && event.target) {
+        const target = event.target as HTMLElement;
+        const closestBtn = target.closest('.view-btn') as HTMLElement;
+        if (closestBtn) {
+          closestBtn.classList.add('active');
+        }
+      }
+      
+      // Show/hide views
+      const cardsView = document.getElementById('cardsView');
+      const mapView = document.getElementById('mapView');
+      if (cardsView) cardsView.style.display = view === 'cards' ? 'grid' : 'none';
+      if (mapView) mapView.style.display = view === 'map' ? 'block' : 'none';
+      
+      // Render content based on view
+      if (view === 'cards') {
+        renderPlaces();
+      } else if (view === 'map') {
+        renderMap();
+      }
+    }
+
+    // Modal functions
+    function closeModal() {
+      const modal = document.getElementById('placeModal');
+      const form = document.getElementById('placeForm') as HTMLFormElement;
+      if (modal) modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      if (form) form.reset();
+      editingPlaceId = null;
+    }
+
+    function openCreateModal() {
+      editingPlaceId = null;
+      const modalTitle = document.getElementById('modalTitle');
+      const form = document.getElementById('placeForm') as HTMLFormElement;
+      const modal = document.getElementById('placeModal');
+      
+      if (modalTitle) modalTitle.textContent = 'Nuevo Lugar';
+      if (form) form.reset();
+      if (modal) modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function editPlace(placeId: string) {
+      const place = currentPlaces.find(p => p.id === placeId);
+      if (!place) return;
+
+      editingPlaceId = placeId;
+      const modalTitle = document.getElementById('modalTitle');
+      const modal = document.getElementById('placeModal');
+      
+      if (modalTitle) modalTitle.textContent = 'Editar Lugar';
+      
+      // Fill form with place data
+      const nameInput = document.getElementById('placeName') as HTMLInputElement;
+      const descInput = document.getElementById('placeDescription') as HTMLTextAreaElement;
+      const estadoInput = document.getElementById('placeEstado') as HTMLSelectElement;
+      const datosInput = document.getElementById('placeDatosAdicionales') as HTMLTextAreaElement;
+      const notasInput = document.getElementById('placeNotas') as HTMLTextAreaElement;
+      
+      if (nameInput) nameInput.value = place.name || '';
+      if (descInput) descInput.value = place.description || '';
+      if (estadoInput) estadoInput.value = place.estado || '';
+      if (datosInput) datosInput.value = place.datos_adicionales_cliente || '';
+      if (notasInput) notasInput.value = place.notas || '';
+      
+      if (modal) modal.classList.add('active');
+    }
+
+    // Form submission
+    const form = document.getElementById('placeForm');
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const nameInput = document.getElementById('placeName') as HTMLInputElement;
+        const descInput = document.getElementById('placeDescription') as HTMLTextAreaElement;
+        const estadoInput = document.getElementById('placeEstado') as HTMLSelectElement;
+        const datosInput = document.getElementById('placeDatosAdicionales') as HTMLTextAreaElement;
+        const notasInput = document.getElementById('placeNotas') as HTMLTextAreaElement;
+        
+        const formData = {
+          name: nameInput?.value || '',
+          description: descInput?.value || '',
+          estado: estadoInput?.value || '',
+          datos_adicionales_cliente: datosInput?.value || '',
+          notas: notasInput?.value || ''
+        };
+
+      try {
+        if (editingPlaceId) {
+          // Update existing place
+          const place = currentPlaces.find(p => p.id === editingPlaceId);
+          const allPlace = allPlaces.find(p => p.id === editingPlaceId);
+          if (place && allPlace) {
+            Object.assign(place, formData);
+            Object.assign(allPlace, formData); // También actualizar en allPlaces
+            showNotification('Lugar actualizado', 'success');
+          }
+        } else {
+          // Create new place
+          const newPlace = {
+            id: Date.now().toString(),
+            ...formData,
+            address: 'Dirección no disponible',
+            rating: 0,
+            types: ['establishment']
+          };
+          allPlaces.push(newPlace); // Agregar a todos los lugares
+          currentPlaces.push(newPlace);
+          showNotification('Lugar creado', 'success');
+        }
+        
+        closeModal();
+        renderPlaces();
+      } catch (error) {
+        console.error('Error al guardar lugar:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+        showNotification(`Error al guardar lugar: ${errorMessage}`, 'error');
+      }
+      });
+    }
+
+    // Filter functions
+    function applyFilters() {
+      const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+      const localityInput = document.getElementById('localityFilter') as HTMLSelectElement;
+      const websiteInput = document.getElementById('websiteFilter') as HTMLSelectElement;
+      const phoneInput = document.getElementById('phoneFilter') as HTMLSelectElement;
+      const priceInput = document.getElementById('priceFilter') as HTMLSelectElement;
+      const openInput = document.getElementById('openFilter') as HTMLSelectElement;
+      const ratingInput = document.getElementById('ratingFilter') as HTMLInputElement;
+      
+      const searchTerm = searchInput?.value.toLowerCase() || '';
+      const province = 'Asturias'; // Siempre filtrar por Asturias
+      const locality = localityInput?.value || '';
+      const website = websiteInput?.value || '';
+      const phone = phoneInput?.value || '';
+      const price = priceInput?.value || '';
+      const open = openInput?.value || '';
+      const rating = parseFloat(ratingInput?.value || '0');
+
+
+      let filteredPlaces = [...allPlaces]; // Usar todos los lugares como base
+
+      if (searchTerm) {
+        filteredPlaces = filteredPlaces.filter(place => 
+          place.name.toLowerCase().includes(searchTerm) ||
+          (place.address && place.address.toLowerCase().includes(searchTerm))
+        );
+      }
+
+      if (province) {
+        filteredPlaces = filteredPlaces.filter(place => 
+          place.address && place.address.toLowerCase().includes(province.toLowerCase())
+        );
+      }
+
+      if (locality) {
+        filteredPlaces = filteredPlaces.filter(place => 
+          place.address && place.address.toLowerCase().includes(locality.toLowerCase())
+        );
+      }
+
+      if (website) {
+        if (website === 'yes') {
+          filteredPlaces = filteredPlaces.filter(place => place.website);
+        } else if (website === 'no') {
+          filteredPlaces = filteredPlaces.filter(place => !place.website);
+        }
+      }
+
+      if (phone) {
+        if (phone === 'yes') {
+          filteredPlaces = filteredPlaces.filter(place => place.phone);
+        } else if (phone === 'no') {
+          filteredPlaces = filteredPlaces.filter(place => !place.phone);
+        }
+      }
+
+      if (price) {
+        const priceLevel = parseInt(price);
+        filteredPlaces = filteredPlaces.filter(place => place.price_level === priceLevel);
+      }
+
+      if (open) {
+        if (open === 'open') {
+          filteredPlaces = filteredPlaces.filter(place => place.opening_hours === true);
+        } else if (open === 'closed') {
+          filteredPlaces = filteredPlaces.filter(place => place.opening_hours === false);
+        }
+      }
+
+
+      if (rating > 0) {
+        filteredPlaces = filteredPlaces.filter(place => place.rating >= rating);
+      }
+
+
+      // Filtro por tipos de negocio
+      const selectedTypes = document.querySelectorAll('.type-option input[type="checkbox"]:checked');
+      if (selectedTypes.length > 0) {
+        const selectedTypeValues = Array.from(selectedTypes).map(checkbox => 
+          (checkbox as HTMLInputElement).closest('.type-option')?.getAttribute('data-value')
+        ).filter(Boolean);
+        
+        if (selectedTypeValues.length > 0) {
+          filteredPlaces = filteredPlaces.filter(place => {
+            if (!place.types || !Array.isArray(place.types)) return false;
+            return selectedTypeValues.some(type => place.types.includes(type));
+          });
+        }
+      }
+
+      currentPlaces = filteredPlaces;
+      currentPage = 1; // Reset a la primera página
+      renderPlaces();
+    }
+
+    function resetFilters() {
+      const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+      const localityInput = document.getElementById('localityFilter') as HTMLSelectElement;
+      const websiteInput = document.getElementById('websiteFilter') as HTMLSelectElement;
+      const phoneInput = document.getElementById('phoneFilter') as HTMLSelectElement;
+      const priceInput = document.getElementById('priceFilter') as HTMLSelectElement;
+      const openInput = document.getElementById('openFilter') as HTMLSelectElement;
+      const ratingInput = document.getElementById('ratingFilter') as HTMLInputElement;
+      
+      if (searchInput) searchInput.value = '';
+      if (localityInput) localityInput.value = '';
+      if (websiteInput) websiteInput.value = '';
+      if (phoneInput) phoneInput.value = '';
+      if (priceInput) priceInput.value = '';
+      if (openInput) openInput.value = '';
+      if (ratingInput) ratingInput.value = '0';
+      
+      // Reset tipos de negocio
+      const typeOptions = document.querySelectorAll('.type-option input[type="checkbox"]');
+      typeOptions.forEach(checkbox => {
+        (checkbox as HTMLInputElement).checked = false;
+      });
+      updateSelectedTypes();
+      
+      // Reset paginación
+      itemsPerPage = window.innerWidth <= 768 ? 10 : 20;
+      currentPage = 1;
+      
+      // Restaurar todos los lugares
+      currentPlaces = [...allPlaces];
+      renderPlaces();
+      showNotification('Filtros reseteados', 'success');
+    }
+
+    function toggleFilters() {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.getElementById('toggleFiltersBtn');
+      const icon = toggleBtn?.querySelector('i');
+      
+      if (sidebar && toggleBtn && icon) {
+        sidebar.classList.toggle('collapsed');
+        
+        if (sidebar.classList.contains('collapsed')) {
+          icon.className = 'fas fa-plus';
+        } else {
+          icon.className = 'fas fa-minus';
+        }
+      }
+    }
+
+    async function exportData() {
+      try {
+        const dataStr = JSON.stringify(currentPlaces, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `lugares_${new Date().toISOString().slice(0, 10)}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+        showNotification('Datos exportados correctamente', 'success');
+      } catch (error) {
+        showNotification('Error al exportar datos', 'error');
+      }
+    }
+
+    // Utility functions
+    function showLoading(show: boolean) {
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.classList.toggle('show', show);
+      }
+    }
+
+    function showNotification(message: string, type: string = 'success') {
+      const notifications = document.getElementById('notifications');
+      if (!notifications) return;
+      
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      
+      notifications.appendChild(notification);
+      
+      // Show notification
+      setTimeout(() => notification.classList.add('show'), 100);
+      
+      // Remove notification after 3 seconds
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          if (notifications.contains(notification)) {
+            notifications.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+    // Función para inicializar el filtro de tipos
+    function initTypeFilter() {
+      const selectedTypes = document.getElementById('selectedTypes');
+      const typesDropdown = document.getElementById('typesDropdown');
+      const typeOptions = document.querySelectorAll('.type-option');
+      
+      if (!selectedTypes || !typesDropdown) return;
+      
+      // Mostrar/ocultar dropdown al hacer clic
+      selectedTypes.addEventListener('click', (e) => {
+        e.stopPropagation();
+        typesDropdown.classList.toggle('show');
+      });
+      
+      // Cerrar dropdown al hacer clic fuera
+      document.addEventListener('click', () => {
+        typesDropdown.classList.remove('show');
+      });
+      
+      // Manejar clics en las opciones (divs)
+      typeOptions.forEach(optionDiv => {
+        optionDiv.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const checkbox = optionDiv.querySelector('input[type="checkbox"]') as HTMLInputElement;
+          if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+            updateSelectedTypes();
+            applyFilters(); // Aplicar filtros automáticamente
+          }
+        });
+        
+        // Evitar que el checkbox se active dos veces
+        const checkbox = optionDiv.querySelector('input[type="checkbox"]');
+        if (checkbox) {
+          checkbox.addEventListener('click', (e) => {
+            e.stopPropagation();
+            updateSelectedTypes();
+            applyFilters(); // Aplicar filtros automáticamente
+          });
+        }
+      });
+    }
+    
+    // Función para actualizar los tipos seleccionados
+    function updateSelectedTypes() {
+      const selectedTypes = document.getElementById('selectedTypes');
+      const typeOptions = document.querySelectorAll('.type-option input[type="checkbox"]:checked');
+      
+      if (!selectedTypes) return;
+      
+      if (typeOptions.length === 0) {
+        selectedTypes.innerHTML = '<span class="placeholder">Seleccionar tipos...</span>';
+      } else {
+        const selectedLabels = Array.from(typeOptions).map(checkbox => {
+          const label = checkbox.nextElementSibling as HTMLLabelElement;
+          return label ? label.textContent : '';
+        }).filter(Boolean);
+        
+        selectedTypes.innerHTML = selectedLabels.join(', ');
+      }
+    }
+    
+    // Función para remover un tipo
+    function removeType(typeLabel: string) {
+      const typeOptions = document.querySelectorAll('.type-option input[type="checkbox"]');
+      typeOptions.forEach(checkbox => {
+        const label = checkbox.nextElementSibling as HTMLLabelElement;
+        if (label && label.textContent === typeLabel) {
+          (checkbox as HTMLInputElement).checked = false;
+        }
+      });
+      updateSelectedTypes();
+    }
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', () => {
+      // Inyectar estilos CSS para las cards
+      injectCardStyles();
+      
+      loadPlaces();
+      
+      // Event listeners para filtros
+      const searchInput = document.getElementById('searchInput');
+      const localityFilter = document.getElementById('localityFilter');
+      const websiteFilter = document.getElementById('websiteFilter');
+      const phoneFilter = document.getElementById('phoneFilter');
+      const priceFilter = document.getElementById('priceFilter');
+      const openFilter = document.getElementById('openFilter');
+      const ratingFilter = document.getElementById('ratingFilter');
+      
+      // Buscador - aplicar filtros al escribir
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          applyFilters();
+        });
+      }
+      
+      // Filtros - aplicar automáticamente al cambiar
+      if (localityFilter) {
+        localityFilter.addEventListener('change', () => {
+          applyFilters();
+        });
+      }
+      
+      if (websiteFilter) {
+        websiteFilter.addEventListener('change', () => {
+          applyFilters();
+        });
+      }
+      
+      if (phoneFilter) {
+        phoneFilter.addEventListener('change', () => {
+          applyFilters();
+        });
+      }
+      
+      if (priceFilter) {
+        priceFilter.addEventListener('change', () => {
+          applyFilters();
+        });
+      }
+      
+      if (openFilter) {
+        openFilter.addEventListener('change', () => {
+          applyFilters();
+        });
+      }
+      
+      if (ratingFilter) {
+        ratingFilter.addEventListener('input', () => {
+          applyFilters();
+        });
+      }
+      
+      // Event listener para redimensionamiento de ventana
+      window.addEventListener('resize', adjustPaginationForScreenSize);
+      
+      
+      // Inicializar filtro de tipos
+      initTypeFilter();
+    });
+
+    // Hacer las funciones disponibles globalmente para los botones HTML
+    (window as any).applyFilters = applyFilters;
+    (window as any).resetFilters = resetFilters;
+    (window as any).toggleFilters = toggleFilters;
+    (window as any).switchView = switchView;
+  </script>
+</BaseLayout>

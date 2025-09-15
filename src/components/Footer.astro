@@ -1,0 +1,53 @@
+---
+// No props needed for this component
+---
+
+<style>
+  /* Footer */
+  .footer {
+    background: var(--bg-tertiary);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--accent-primary);
+  }
+</style>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2024 GeoAstur. Una herramienta para explorar y gestionar lugares.</p>
+    <div class="footer-links">
+      <a href="/">Inicio</a>
+      <a href="/explorador">Explorador</a>
+      <a href="/stats">Estadísticas</a>
+      <a href="/vista-completa">Vista Completa</a>
+    </div>
+  </div>
+</footer>
