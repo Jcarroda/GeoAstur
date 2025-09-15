@@ -282,9 +282,8 @@ Este proyecto está bajo la licencia [especificar licencia].
 
 Para soporte o preguntas:
 
-- **Issues**: [Crear un issue en GitHub](URL_DEL_REPOSITORIO/issues)
-- **Email**: [tu-email@ejemplo.com]
-- **Documentación**: [URL de documentación]
+- **Issues**: [Crear un issue en GitHub] https://github.com/Jcarroda/GeoAstur/issues
+- **Email**: [jcarroda@ejemplo.com]
 
 ## 🎉 Agradecimientos
 
