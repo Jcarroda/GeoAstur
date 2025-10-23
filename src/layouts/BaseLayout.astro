@@ -681,7 +681,7 @@ const { title, description = "Una herramienta completa para explorar, catalogar 
 <body>
   <slot />
   
-  <script>
+  <script is:inline>
     // Theme toggle
     function toggleTheme() {
       const body = document.body;
@@ -734,6 +734,7 @@ const { title, description = "Una herramienta completa para explorar, catalogar 
         hamburger.classList.remove('active');
       }
     }
+
 
     // Initialize theme on load
     document.addEventListener('DOMContentLoaded', loadTheme);

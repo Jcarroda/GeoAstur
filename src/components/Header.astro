@@ -9,7 +9,7 @@
     padding: 1.5rem 2rem;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-color);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -222,7 +222,7 @@
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     backdrop-filter: blur(20px);
     box-shadow: -8px 0 32px rgba(0, 0, 0, 0.3);
-    z-index: 999999;
+    z-index: 9999999;
     padding: 2rem;
     transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-y: auto;
@@ -239,7 +239,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 999998;
+    z-index: 9999998;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -289,7 +289,6 @@
   .mobile-menu .btn {
     display: flex;
     align-items: center;
-    width: 100%;
     margin-bottom: 1rem;
     text-align: left;
     background: rgba(255, 255, 255, 0.15);
@@ -319,7 +318,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     margin-top: 2rem;
     background: rgba(255, 255, 255, 0.15);
     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -393,34 +391,32 @@
       <span></span>
       <span></span>
     </div>
-
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
-    
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-      <div class="mobile-menu-header">
-        <div class="mobile-menu-title">Menú</div>
-        <button class="mobile-menu-close" onclick="closeMobileMenu()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <a href="/" class="btn" title="Inicio">
-        <i class="fas fa-home"></i> Inicio
-      </a>
-      <a href="/explorador" class="btn" title="Explorador">
-        <i class="fas fa-search"></i> Explorador
-      </a>
-      <a href="/stats" class="btn" title="Ver Estadísticas">
-        <i class="fas fa-chart-bar"></i> Stats
-      </a>
-      <a href="/vista-completa" class="btn" title="Vista Completa">
-        <i class="fas fa-list"></i> Vista Completa
-      </a>
-      <button class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i> Cambiar Tema
-      </button>
-    </div>
   </div>
 </header>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <div class="mobile-menu-title">Menú</div>
+    <button class="mobile-menu-close" onclick="closeMobileMenu()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <a href="/" class="btn" title="Inicio">
+    <i class="fas fa-home"></i> Inicio
+  </a>
+  <a href="/explorador" class="btn" title="Explorador">
+    <i class="fas fa-search"></i> Explorador
+  </a>
+  <a href="/stats" class="btn" title="Ver Estadísticas">
+    <i class="fas fa-chart-bar"></i> Estadísticas
+  </a>
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <i class="fas fa-moon"></i> Cambiar Tema
+  </button>
+</div>
+
